@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../entities/todo.dart';
 
@@ -12,6 +13,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      surfaceTintColor: _getColor(todo.isDone),
       elevation: 3,
       margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
       child: ListTile(
@@ -22,7 +24,7 @@ class CustomListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(todo.description),
-            Text(todo.time.toString()),
+            Text(DateFormat.yMEd().add_jms().format(todo.time)),
           ],
         ),
         trailing: _buildRoundedIconButton(todo.isDone),
@@ -34,7 +36,7 @@ class CustomListTile extends StatelessWidget {
     return GestureDetector(
       onTap: onIconButttonPressed,
       child: CircleAvatar(
-        child: Icon(_getIcon(true)),
+        child: Icon(_getIcon(!todo.isDone)),
       ),
     );
   }
@@ -45,5 +47,9 @@ class CustomListTile extends StatelessWidget {
 
   TextDecoration _getTextDecoration(bool isDone){
     return isDone?TextDecoration.lineThrough:TextDecoration.none;
+  }
+
+  Color _getColor(bool isDone){
+    return isDone?Colors.teal:Colors.transparent;
   }
 }
